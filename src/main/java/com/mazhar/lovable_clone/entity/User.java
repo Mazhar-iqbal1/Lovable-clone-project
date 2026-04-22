@@ -1,22 +1,29 @@
 package com.mazhar.lovable_clone.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Access;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.lang.reflect.Type;
 import java.time.Instant;
+
 
 @Entity
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldDefaults(level=AccessLevel.PRIVATE)
+@Builder
+@Table(name = "users")
 public class User {
 
-    Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id; //owner side
 
     String email;
 
@@ -26,7 +33,10 @@ public class User {
 
     String avatarUrl;
 
+    @CreationTimestamp
     Instant createdAt;
+
+    @UpdateTimestamp
     Instant updatedAt;
     Instant deletedAt;
 

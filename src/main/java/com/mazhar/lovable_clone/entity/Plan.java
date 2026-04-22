@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.converter.json.JsonbHttpMessageConverter;
 
-@Entity
+
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)

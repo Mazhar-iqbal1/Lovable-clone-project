@@ -1,4 +1,9 @@
 package com.mazhar.lovable_clone.dto.subscription;
 
-public class PlanLimitsResponse {
+public record PlanLimitsResponse (
+    String planName,
+    Integer maxTokenPerDay,
+    Integer maxProjects,
+    Boolean unlimitedAi
+){
 }

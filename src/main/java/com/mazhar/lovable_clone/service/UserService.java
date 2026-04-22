@@ -7,4 +7,5 @@ public interface UserService {
 
 
     UserProfileResponse getProfile();
+
 }

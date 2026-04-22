@@ -34,7 +34,7 @@ public class ProjectMemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(projectMemberService.inviteMember(projectId, userId));
     }
 
-    @PatchMapping("/{memberId}")
+    @PatchMapping("/{memberId}/update-role")
     public ResponseEntity<MemberResponse> updateMemberRole(
             @PathVariable Long projectId,
             @PathVariable Long memberId,
@@ -45,7 +45,7 @@ public class ProjectMemberController {
         return ResponseEntity.ok(projectMemberService.updateMemberRole(projectId, memberId, request, userId));
     }
 
-    @PatchMapping("/{memberId}")
+    @PatchMapping("/{memberId}/delete-member")
     public ResponseEntity<MemberResponse> deleteProjectMember(
             @PathVariable Long projectId,
             @PathVariable Long memberId

@@ -5,6 +5,8 @@ import com.mazhar.lovable_clone.dto.auth.LoginRequest;
 import com.mazhar.lovable_clone.dto.auth.SignUpRequest;
 import org.jspecify.annotations.Nullable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+
 
 public interface AuthService {
 
