@@ -12,6 +12,9 @@ import com.mazhar.lovable_clone.service.ProjectService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class ProjectServiceImpl implements ProjectService {
@@ -27,14 +30,22 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectSummaryResponse getUserProjects(Long userId) {
+    public List<ProjectSummaryResponse> getUserProjects(Long userId) {
         //Optional<List<ProjectResponse>> projectSummaryResponses =projectRepository.findAll();
-        return null;
+//        return projectRepository.findAllAccessibleByUser(userId)
+//                .stream()
+//                .map(e ->projectMapper.toProjectSummaryResponse(e))
+//                .collect(Collectors.toList());
+
+        var projects=projectRepository.findAllAccessibleByUser(userId);
+        return projectMapper.toListOfProjectSummmaryResponse(projects);
     }
 
     @Override
-    public ProjectSummaryResponse getUserProjectById(Long userId) {
-        return null;
+    public ProjectSummaryResponse getUserProjectById(Long id, Long userId) {
+
+        Project project=projectRepository.findById(id).orElseThrow();
+        return projectMapper.toProjectSummaryResponse(project);
     }
 
     @Override

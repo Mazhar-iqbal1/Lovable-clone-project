@@ -3,12 +3,13 @@ package com.mazhar.lovable_clone.service;
 import com.mazhar.lovable_clone.dto.project.ProjectRequest;
 import com.mazhar.lovable_clone.dto.project.ProjectResponse;
 import com.mazhar.lovable_clone.dto.project.ProjectSummaryResponse;
-import org.jspecify.annotations.Nullable;
+
+import java.util.List;
 
 public interface ProjectService {
-     ProjectSummaryResponse getUserProjects(Long userId);
+     List<ProjectSummaryResponse> getUserProjects(Long userId);
 
-     ProjectSummaryResponse getUserProjectById(Long userId);
+     ProjectSummaryResponse getUserProjectById(Long id ,Long userId);
 
      ProjectResponse createProject(ProjectRequest request, Long userId);
 

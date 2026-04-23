@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.*;
+import java.util.List;
 
 @SuppressWarnings("NullableProblems")
 @RestController
@@ -22,17 +23,18 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/")
-    public ResponseEntity<ProjectSummaryResponse> getAllProjects(){
+    public ResponseEntity<List<ProjectSummaryResponse>> getAllProjects(){
         Long userId=1L;
         return ResponseEntity.ok(projectService.getUserProjects(userId));
-
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectSummaryResponse> getProjectById(){
+    public ResponseEntity<ProjectSummaryResponse> getProjectById(
+            @PathVariable Long id
+    ){
         Long userId=1L;
-        return ResponseEntity.ok(projectService.getUserProjectById(userId));
+        return ResponseEntity.ok(projectService.getUserProjectById(id,userId));
 
     }
 
