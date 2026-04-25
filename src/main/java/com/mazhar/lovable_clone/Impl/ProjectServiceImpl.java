@@ -12,8 +12,8 @@ import com.mazhar.lovable_clone.service.ProjectService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -42,10 +42,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectSummaryResponse getUserProjectById(Long id, Long userId) {
+    public ProjectResponse getUserProjectById(Long id, Long userId) {
 
-        Project project=projectRepository.findById(id).orElseThrow();
-        return projectMapper.toProjectSummaryResponse(project);
+        Project project=projectRepository.findAccessibleProjectByUser(id,userId).orElseThrow();
+        return projectMapper.toProjectResponse(project);
+
+//        this below one is also method to fetch (but i takes more api calls)
+//        Project project=projectRepository.findById(id).orElseThrow();
+//        if(project.getOwner().getId().equals(userId))
+//            return projectMapper.toProjectSummaryResponse(project);
+
+
+
     }
 
     @Override
@@ -53,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         User owner=userRepository.findById(userId).orElseThrow();
         Project project=Project.builder() //user Entity here
-                .name(request.name())
+                .name(request.name()) //converted here from DTO to entity
                 .owner(owner)
                 .build();
 
@@ -64,11 +72,35 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectResponse updateProject(Long id, ProjectRequest request, Long userId) {
-        return null;
+
+        // Below method is used if you have n numbers of fields to update
+        Project project=projectRepository.findAccessibleProjectByUser(id,userId).orElseThrow();
+        projectMapper.toUpdateProject(request,project);
+        project=projectRepository.save(project);
+        return projectMapper.toProjectResponse(project);
+
+        //Below is the one method we can use if fields is 1 or 2 to update( like req has only one field)
+//        Project project=projectRepository.findAccessibleProjectByUser(id,userId).orElseThrow();
+//        project.setName(request.name());
+//        project=projectRepository.save(project);
+//        return projectMapper.toProjectResponse(project);
+
     }
 
     @Override
-    public void softDelete(Long userId) {
+    public void softDelete(Long id, Long userId) {
+        Project project=getAccessibleProjectById(id, userId);
+        if(!project.getOwner().getId().equals(userId)){
+            throw new RuntimeException("You are not allowed to Delete!");
+        }
+        project.setDeletedAt(Instant.now());
+        projectRepository.save(project);
 
+    }
+
+    /// INTERNAL FUNCTIONS
+
+    public Project getAccessibleProjectById(Long projectId, Long userId){
+        return projectRepository.findAccessibleProjectByUser(projectId, userId).orElseThrow();
     }
 }

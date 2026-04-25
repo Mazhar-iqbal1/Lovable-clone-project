@@ -30,7 +30,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectSummaryResponse> getProjectById(
+    public ResponseEntity<ProjectResponse> getProjectById(
             @PathVariable Long id
     ){
         Long userId=1L;
@@ -58,7 +58,7 @@ public class ProjectController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable Long id){
         Long userId=1L;
-        projectService.softDelete(userId);
+        projectService.softDelete(id, userId);
         return ResponseEntity.noContent().build();
 
 
