@@ -56,7 +56,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
             throw new RuntimeException("Not allowed");
         }
 
-        User invitee=userRepository.findByEmail(request.email()).orElseThrow();
+        User invitee=userRepository.findByUsername(request.username()).orElseThrow();
 
         if(invitee.getId().equals(userId)){
             throw  new RuntimeException("You are admin");

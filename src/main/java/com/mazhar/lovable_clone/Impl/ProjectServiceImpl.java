@@ -6,6 +6,7 @@ import com.mazhar.lovable_clone.dto.project.ProjectResponse;
 import com.mazhar.lovable_clone.dto.project.ProjectSummaryResponse;
 import com.mazhar.lovable_clone.entity.Project;
 import com.mazhar.lovable_clone.entity.User;
+import com.mazhar.lovable_clone.error.NoSuchElementException;
 import com.mazhar.lovable_clone.repository.ProjectRepository;
 import com.mazhar.lovable_clone.repository.UserRepository;
 import com.mazhar.lovable_clone.service.ProjectService;
@@ -44,7 +45,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectResponse getUserProjectById(Long id, Long userId) {
 
-        Project project=projectRepository.findAccessibleProjectByUser(id,userId).orElseThrow();
+        Project project=projectRepository.findAccessibleProjectByUser(id,userId).orElseThrow(()->new NoSuchElementException("Project",id.toString()));
         return projectMapper.toProjectResponse(project);
 
 //        this below one is also method to fetch (but i takes more api calls)

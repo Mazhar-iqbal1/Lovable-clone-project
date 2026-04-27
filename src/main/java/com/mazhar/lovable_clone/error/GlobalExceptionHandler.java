@@ -40,5 +40,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(apiError.status()).body(apiError);
     }
 
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ApiError> handleNoSuchElementException(NoSuchElementException ex){
+        ApiError apiError=new ApiError(HttpStatus.NOT_FOUND,"Project with Id "+ ex.getResourceId() +"Not Found");
+        log.error(apiError.toString(), ex);
+        return ResponseEntity.status(apiError.status()).body(apiError);
+    }
+
 
 }
