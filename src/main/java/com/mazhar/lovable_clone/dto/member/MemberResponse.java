@@ -2,12 +2,14 @@ package com.mazhar.lovable_clone.dto.member;
 
 import com.mazhar.lovable_clone.enums.ProjectMemberRole;
 
+import java.time.Instant;
+
 public record MemberResponse(
-        Long id,
-        String email,
+        Long userId,
+        String username,
         String  name,
-        String avatarUrl,
-        ProjectMemberRole role
+        ProjectMemberRole projectRole,
+        Instant invitedAt
 
 ) {
 }
